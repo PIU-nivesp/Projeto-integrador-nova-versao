@@ -5,6 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedFarma</title>
+
+    <!-- Inclusão do script do accessibility-plugin via CDN -->
+    <script src="https://cdn.jsdelivr.net/gh/PrabothCharith/accessibility-plugin@main/accessibility-menu.min.js"></script>
+
+    <!-- CSS DO BOTÃO DE ACESSIBILIDADE -->
+     <style>
+        #accessibility-modal.close {
+        position: fixed;
+        top: 150px;
+        }
+    </style>
+
+
     <style>
         /* Reset básico de margens e preenchimentos */
         * {
@@ -127,7 +140,7 @@
         }
 
         .product img {
-            width: 40%;
+            width: 100%;
             max-height: 200px;
             object-fit: cover;
             border-radius: 5px;
@@ -168,6 +181,7 @@
             margin-top: 20px;
         }
     </style>
+    
 </head>
 
 <body>
@@ -191,34 +205,34 @@
 
     <!-- Seção de Produtos -->
     <section class="products-section">
-        <h3 class="section-title">CATEGORIA 1 <a href="">Ver todos <img class="seta" src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/proximo.png"></a> </h3>
+        <h3 class="section-title">CATEGORIA 1 <a href="https://pisite.fly.dev/estoque">Ver todos <img class="seta" src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/proximo.png"></a> </h3>
         <div class="products">
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 1">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/acido-valproico-250mg-removebg-preview.png" alt="Produto 1">
                 <div class="stars">
                 </div>
-                <p>Dorflex</p>
+                <p>Ácido Valpróico<p style="font-size: 15px">250mg</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 2">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/valproato-de-sodio-50mg-ml-sabor-cereja-100ml-com-copo-dosador-generico-prati-donaduzzi-removebg-preview.png" alt="Produto 2">
                 <div class="stars">
                 </div>
-                <p>Neosaldina</p>
+                <p>Ácido Valpróico (Valproato de Sódio)<p style="font-size: 15px">250mg/5ml Frasco 100ml</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 3">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/alprazolam-1mg-removebg-preview.png" alt="Produto 3">
                 <div class="stars">
                 </div>
-                <p>Buscompan Composto</p>
+                <p>Alprazolam<p style="font-size: 15px">1mg</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 4">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/cloridrato-de-amitriptilina-25mg-removebg-preview.png" alt="Produto 4">
                 <div class="stars">
                 </div>
-                <p>Hipoglós</p>
+                <p>Amitriptilina<p style="font-size: 15px">25mg</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
         </div>
@@ -229,31 +243,31 @@
         <h3 class="section-title">CATEGORIA 2 <a href="">Ver todos <img class="seta" src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/proximo.png"></a></h3>
         <div class="products">
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 1">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/biperideno_2mg-removebg-preview.png" alt="Produto 1">
                 <div class="stars">
                 </div>
-                <p>Xarelto</p>
+                <p>Biperideno<p style="font-size: 15px">2mg</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 2">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/biperideno5mg-removebg-preview.png" alt="Produto 2">
                 <div class="stars">
                 </div>
-                <p> Glifage XR</p>
+                <p>Biperideno<p style="font-size: 15px">5mg / 1ml</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 3">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/carbamazepina-200mg-removebg-preview.png" alt="Produto 3">
                 <div class="stars">
                 </div>
-                <p> Ciclo 21</p>
+                <p>Carbamazepina<p style="font-size: 15px">200mg</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 4">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/carbonato-de-litio-300mg-removebg-preview.png" alt="Produto 4">
                 <div class="stars">
                 </div>
-                <p> Microvlar</p>
+                <p>Carbonato de Lítio<p style="font-size: 15px">300mg</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
         </div>
@@ -263,31 +277,31 @@
         <h3 class="section-title">CATEGORIA 3 <a href="">Ver todos <img class="seta" src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/proximo.png"></a></h3>
         <div class="products">
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 1">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/cloridrato-de-clomipramina-25mg-removebg-preview.png" alt="Produto 1">
                 <div class="stars">
                 </div>
-                <p> Melhoral</p>
+                <p>Clomipramina<p style="font-size: 15px">25mg</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 2">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/clonazepam-30comp-removebg-preview.png" alt="Produto 2">
                 <div class="stars">
                 </div>
-                <p> Rivotril</p>
+                <p>Clonazepan<p style="font-size: 15px">0,5mg</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 3">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/clonazepam2mg-removebg-preview.png" alt="Produto 3">
                 <div class="stars">
                 </div>
-                <p> Lexotan</p>
+                <p>Clonazepan<p style="font-size: 15px">2mg</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
             <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 4">
+                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/CLONAZEPAMGOTAS-removebg-preview.png" alt="Produto 4">
                 <div class="stars">
                 </div>
-                <p> Isotretinoína</p>
+                <p>Clonazepan<p style="font-size: 15px">2mg/ml Frasco 20ml</p></p>
                 <button class="add-to-cart-btn">Ver no estoque</button>
             </div>
         </div>
