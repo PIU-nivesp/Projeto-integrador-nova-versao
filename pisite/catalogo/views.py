@@ -12,3 +12,6 @@ def index(request):
 
 def estoque(request):
     return render(request, 'catalogo/estoque.html')
+
+def inserir(request):
+    return render(request, 'catalogo/inserir.html')

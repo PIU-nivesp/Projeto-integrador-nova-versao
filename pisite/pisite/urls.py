@@ -23,4 +23,5 @@ urlpatterns = [
     path('', views.login_view, name='login'),
     path('home', views.index, name='index'),
     path('estoque', views.estoque, name='estoque'),
+    path('inserir', views.inserir, name='inserir'),
 ]
