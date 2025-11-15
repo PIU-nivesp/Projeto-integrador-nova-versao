@@ -180,6 +180,24 @@
         .section-title + .products {
             margin-top: 20px;
         }
+
+        /* Adicionando estilo para o botão/link de Logout */
+        .logout-link {
+            color: white; /* Cor do texto */
+            text-decoration: none; /* Remove sublinhado */
+            padding: 5px 10px; /* Espaçamento interno */
+            border: 1px solid white; /* Borda leve para parecer um botão */
+            border-radius: 5px;
+            font-size: 14px;
+            margin-left: 15px; /* Espaço à esquerda dos ícones */
+            display: flex; /* Para centralizar texto se necessário */
+            align-items: center; 
+        }
+
+        .logout-link:hover {
+            background-color: #003366; /* Azul um pouco mais escuro ao passar o mouse */
+        }
+
     </style>
     
 </head>
@@ -189,10 +207,14 @@
     <!-- Barra de Navegação -->
     <nav class="navbar">
         <div class="navbar-container">
-            <a href="#" class="navbar-brand"><img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/logobranca.png"></a>
+            <a href="{% url 'index' %}" class="navbar-brand"><img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/logobranca.png"></a>
+            
             <div class="navbar-links">
-                <a href="https://pisite.fly.dev/inserir"><img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/armazenamento-de-dados-1.png"></a>
+                <a href="{% url 'inserir' %}"><img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/armazenamento-de-dados-1.png"></a>
                 <a href="#"><img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/alerta-1.png"></a>
+                
+                <a href="{% url 'logout' %}" class="logout-link">Sair</a>
+                
             </div>
         </div>
     </nav>
