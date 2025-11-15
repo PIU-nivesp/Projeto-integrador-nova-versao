@@ -1,0 +1,5 @@
+# Conteúdo do seu .gitignore
+__pycache__/
+*.pyc
+pisite/db.sqlite3
+venv/  # <- Certifique-se de que esta linha está presente

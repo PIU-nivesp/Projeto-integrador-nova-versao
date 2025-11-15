@@ -1,0 +1,609 @@
+[
+    {
+        "model": "catalogo.usuarios",
+        "pk": 1,
+        "fields": {
+            "nome": "ADM",
+            "email": "adm@medflow.com.br",
+            "senha_hash": "fcef631eab0be0f69d940e737b136e0cbcf4f6f1de81f50822862002655af92e",
+            "cargo": "admin",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.usuarios",
+        "pk": 2,
+        "fields": {
+            "nome": "Renato",
+            "email": "Re@gmail.com",
+            "senha_hash": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
+            "cargo": "farmaceutico",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 1,
+        "fields": {
+            "nome": "Dipirona 1g",
+            "descricao": "Analgésico e antipirético",
+            "codigo_barras": "7896004700153",
+            "fabricante": "EMS",
+            "lote": "L002",
+            "validade": "2026-05-15",
+            "unidade_medida": "comprimido",
+            "imagem": "Dipirona1.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 2,
+        "fields": {
+            "nome": "Amoxicilina 500mg",
+            "descricao": "Antibiótico da classe das penicilinas",
+            "codigo_barras": "7896094900531",
+            "fabricante": "Teuto",
+            "lote": "L003",
+            "validade": "2025-11-20",
+            "unidade_medida": "comprimido",
+            "imagem": "Amoxicilina500.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 3,
+        "fields": {
+            "nome": "Ibuprofeno 400mg",
+            "descricao": "Antiinflamatório não esteroide (AINE)",
+            "codigo_barras": "7896422500120",
+            "fabricante": "Bayer",
+            "lote": "L004",
+            "validade": "2024-10-10",
+            "unidade_medida": "comprimido",
+            "imagem": "Ibuprofeno400.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 4,
+        "fields": {
+            "nome": "Loratadina 10mg",
+            "descricao": "Antialérgico (anti-histamínico)",
+            "codigo_barras": "7896004710411",
+            "fabricante": "Neo Química",
+            "lote": "L005",
+            "validade": "2026-01-30",
+            "unidade_medida": "comprimido",
+            "imagem": "Loratadina10.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 5,
+        "fields": {
+            "nome": "Omeprazol 20mg",
+            "descricao": "Inibidor da bomba de prótons (antiácido)",
+            "codigo_barras": "7896094900326",
+            "fabricante": "Teuto",
+            "lote": "L006",
+            "validade": "2025-07-15",
+            "unidade_medida": "comprimido",
+            "imagem": "Omeprazol20.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 6,
+        "fields": {
+            "nome": "Paracetamol 750mg",
+            "descricao": "Analgésico e antitérmico",
+            "codigo_barras": "7891234560011",
+            "fabricante": "MedPharma",
+            "lote": "L12345",
+            "validade": "2026-06-01",
+            "unidade_medida": "comprimido",
+            "imagem": "Paracetamol750.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 7,
+        "fields": {
+            "nome": "Captopril 25mg",
+            "descricao": "Anti-hipertensivo",
+            "codigo_barras": "7891234560013",
+            "fabricante": "Pharlab",
+            "lote": "CAP25A",
+            "validade": "2025-12-31",
+            "unidade_medida": "comprimido",
+            "imagem": "Captopril25.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 8,
+        "fields": {
+            "nome": "Losartana 50mg",
+            "descricao": "Anti-hipertensivo",
+            "codigo_barras": "7891234560015",
+            "fabricante": "Medley",
+            "lote": "LOS50Z",
+            "validade": "2026-09-22",
+            "unidade_medida": "comprimido",
+            "imagem": "Losartana50.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 9,
+        "fields": {
+            "nome": "Azitromicina 500mg",
+            "descricao": "Antibiótico de largo espectro",
+            "codigo_barras": "7891234560016",
+            "fabricante": "Pharmascience",
+            "lote": "AZ500B",
+            "validade": "2025-11-30",
+            "unidade_medida": "comprimido",
+            "imagem": "Azitromicina500.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 10,
+        "fields": {
+            "nome": "Clonazepam 2mg",
+            "descricao": "Ansiolítico e anticonvulsivante",
+            "codigo_barras": "7891234560017",
+            "fabricante": "NeuroPharm",
+            "lote": "CLN2T",
+            "validade": "2026-05-20",
+            "unidade_medida": "comprimido",
+            "imagem": "Clonazepam2.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 11,
+        "fields": {
+            "nome": "Prednisona 20mg",
+            "descricao": "Corticoide",
+            "codigo_barras": "7891234560018",
+            "fabricante": "InflamMed",
+            "lote": "PR20X",
+            "validade": "2027-07-15",
+            "unidade_medida": "comprimido",
+            "imagem": "Prednisona20.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 12,
+        "fields": {
+            "nome": "Salbutamol 100mcg",
+            "descricao": "Broncodilatador inalatório",
+            "codigo_barras": "7891234560019",
+            "fabricante": "RespiraVida",
+            "lote": "SB100I",
+            "validade": "2025-08-10",
+            "unidade_medida": "unidade",
+            "imagem": "Salbutamol100.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 13,
+        "fields": {
+            "nome": "Cetirizina 10mg",
+            "descricao": "Antialérgico indicado para rinite alérgica e urticária.",
+            "codigo_barras": "7891234560160",
+            "fabricante": "Medley",
+            "lote": "CET123",
+            "validade": "2026-04-01",
+            "unidade_medida": "comprimido",
+            "imagem": "Cetirizina10.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 14,
+        "fields": {
+            "nome": "Metformina 850mg",
+            "descricao": "Usado no tratamento de diabetes tipo 2.",
+            "codigo_barras": "7891234560028",
+            "fabricante": "EMS",
+            "lote": "MET456",
+            "validade": "2025-12-15",
+            "unidade_medida": "comprimido",
+            "imagem": "Metformina850.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 15,
+        "fields": {
+            "nome": "Enalapril 10mg",
+            "descricao": "Anti-hipertensivo, indicado para pressão alta.",
+            "codigo_barras": "7891234560035",
+            "fabricante": "Bayer",
+            "lote": "ENA789",
+            "validade": "2026-07-10",
+            "unidade_medida": "comprimido",
+            "imagem": "Enalapril10.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 16,
+        "fields": {
+            "nome": "Hidroxicloroquina 400mg",
+            "descricao": "Indicada para doenças autoimunes como lúpus e artrite.",
+            "codigo_barras": "7891234560042",
+            "fabricante": "Sanofi",
+            "lote": "HQC321",
+            "validade": "2027-01-30",
+            "unidade_medida": "comprimido",
+            "imagem": "Hidroxicloroquina400.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 17,
+        "fields": {
+            "nome": "Fluconazol 150mg",
+            "descricao": "Antifúngico de dose única.",
+            "codigo_barras": "7891234560059",
+            "fabricante": "Aché",
+            "lote": "FLU654",
+            "validade": "2026-09-20",
+            "unidade_medida": "comprimido",
+            "imagem": "Fluconazol150.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 18,
+        "fields": {
+            "nome": "AAS Infantil 100mg",
+            "descricao": "Analgésico e antipirético infantil.",
+            "codigo_barras": "7891234560066",
+            "fabricante": "Bayer",
+            "lote": "AASINF01",
+            "validade": "2026-02-01",
+            "unidade_medida": "comprimido",
+            "imagem": "AASInfantil100.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 19,
+        "fields": {
+            "nome": "Simeticona 125mg",
+            "descricao": "Medicamento usado para aliviar gases.",
+            "codigo_barras": "7891234560073",
+            "fabricante": "Neo Química",
+            "lote": "SIMT002",
+            "validade": "2025-11-10",
+            "unidade_medida": "comprimido",
+            "imagem": "Simeticona125.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 20,
+        "fields": {
+            "nome": "Furosemida 40mg",
+            "descricao": "Diurético para tratamento de hipertensão e retenção de líquidos.",
+            "codigo_barras": "7891234560080",
+            "fabricante": "Teuto",
+            "lote": "FUR003",
+            "validade": "2026-08-05",
+            "unidade_medida": "comprimido",
+            "imagem": "Furosemida40.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 21,
+        "fields": {
+            "nome": "Cetoconazol 200mg",
+            "descricao": "Antifúngico de uso oral.",
+            "codigo_barras": "7891234560097",
+            "fabricante": "EMS",
+            "lote": "CETO004",
+            "validade": "2026-10-20",
+            "unidade_medida": "comprimido",
+            "imagem": "Cetoconazol200.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 22,
+        "fields": {
+            "nome": "Ranitidina 150mg",
+            "descricao": "Redutor de acidez estomacal.",
+            "codigo_barras": "7891234560103",
+            "fabricante": "Medley",
+            "lote": "RANI005",
+            "validade": "2025-09-25",
+            "unidade_medida": "comprimido",
+            "imagem": "Ranitidina150.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 23,
+        "fields": {
+            "nome": "Nistatina 100.000 UI/ml",
+            "descricao": "Antifúngico oral indicado para candidíase.",
+            "codigo_barras": "7891234560110",
+            "fabricante": "Aché",
+            "lote": "NIST006",
+            "validade": "2026-03-15",
+            "unidade_medida": "ml",
+            "imagem": "Nistatina100000.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 24,
+        "fields": {
+            "nome": "Levotiroxina Sodica 50mcg",
+            "descricao": "Hormônio tireoidiano sintético.",
+            "codigo_barras": "7891234560127",
+            "fabricante": "Sanofi",
+            "lote": "LEVO007",
+            "validade": "2027-01-01",
+            "unidade_medida": "comprimido",
+            "imagem": "Levotiroxinasodica50.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.medicamentos",
+        "pk": 25,
+        "fields": {
+            "nome": "Domperidona 10mg",
+            "descricao": "Anti-emético e estimulador da motilidade gástrica.",
+            "codigo_barras": "7891234560134",
+            "fabricante": "EMS",
+            "lote": "DOMP008",
+            "validade": "2026-06-30",
+            "unidade_medida": "comprimido",
+            "imagem": "Domperidona10.png",
+            "criado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 1,
+        "fields": {
+            "medicamento": 1,
+            "quantidade": 15,
+            "alerta_minimo": 10,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 2,
+        "fields": {
+            "medicamento": 2,
+            "quantidade": 0,
+            "alerta_minimo": 5,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 3,
+        "fields": {
+            "medicamento": 3,
+            "quantidade": 0,
+            "alerta_minimo": 10,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 4,
+        "fields": {
+            "medicamento": 4,
+            "quantidade": 50,
+            "alerta_minimo": 8,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 5,
+        "fields": {
+            "medicamento": 5,
+            "quantidade": 0,
+            "alerta_minimo": 12,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 6,
+        "fields": {
+            "medicamento": 6,
+            "quantidade": 30,
+            "alerta_minimo": 10,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 7,
+        "fields": {
+            "medicamento": 7,
+            "quantidade": 50,
+            "alerta_minimo": 20,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 8,
+        "fields": {
+            "medicamento": 8,
+            "quantidade": 10,
+            "alerta_minimo": 10,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 9,
+        "fields": {
+            "medicamento": 9,
+            "quantidade": 0,
+            "alerta_minimo": 20,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 10,
+        "fields": {
+            "medicamento": 10,
+            "quantidade": 20,
+            "alerta_minimo": 10,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 11,
+        "fields": {
+            "medicamento": 11,
+            "quantidade": 0,
+            "alerta_minimo": 20,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 12,
+        "fields": {
+            "medicamento": 12,
+            "quantidade": 0,
+            "alerta_minimo": 20,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 13,
+        "fields": {
+            "medicamento": 13,
+            "quantidade": 100,
+            "alerta_minimo": 20,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 14,
+        "fields": {
+            "medicamento": 14,
+            "quantidade": 0,
+            "alerta_minimo": 20,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 15,
+        "fields": {
+            "medicamento": 15,
+            "quantidade": 0,
+            "alerta_minimo": 20,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 16,
+        "fields": {
+            "medicamento": 16,
+            "quantidade": 0,
+            "alerta_minimo": 10,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 17,
+        "fields": {
+            "medicamento": 17,
+            "quantidade": 0,
+            "alerta_minimo": 10,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 18,
+        "fields": {
+            "medicamento": 18,
+            "quantidade": 0,
+            "alerta_minimo": 10,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 19,
+        "fields": {
+            "medicamento": 19,
+            "quantidade": 0,
+            "alerta_minimo": 10,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 20,
+        "fields": {
+            "medicamento": 20,
+            "quantidade": 0,
+            "alerta_minimo": 10,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    },
+    {
+        "model": "catalogo.estoque",
+        "pk": 21,
+        "fields": {
+            "medicamento": 21,
+            "quantidade": 0,
+            "alerta_minimo": 10,
+            "atualizado_em": "2025-11-15T10:35:00Z"
+        }
+    }
+]
