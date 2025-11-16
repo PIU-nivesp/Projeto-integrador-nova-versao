@@ -92,66 +92,65 @@
             <span class="close-btn" onclick="closeModal('cadastroRemedioModal')">&times;</span>
             <h2>Cadastro de Novo Medicamento</h2>
             
-            <div id="authStatusMessage" class="loading-message">
-                Aguardando conexão segura...
-            </div>
+            <div id="authStatusMessage" class="loading-message" style="display:none;"></div>
             
             <p>Insira todos os dados do novo item para registro no sistema.</p>
             <div id="cadastroMessage" class="message-box" style="display:none;"></div>
 
-            <form id="cadastroForm">
+            <form id="cadastroForm" action="{% url 'cadastro_medicamento' %}" method="POST">
+                {% csrf_token %}
                 
                 <div class="full-width">
                     <label for="nome_comercial">Nome Comercial:</label>
-                    <input type="text" id="nome_comercial" required>
+                    <input type="text" id="nome_comercial" name="nome_comercial" required>
                 </div>
                 
                 <div class="full-width">
                     <label for="principio_ativo">Princípio Ativo:</label>
-                    <input type="text" id="principio_ativo" required>
+                    <input type="text" id="principio_ativo" name="principio_ativo" required>
                 </div>
                 
                 <div>
                     <label for="concentracao">Concentração:</label>
-                    <input type="text" id="concentracao" placeholder="Ex: 500mg, 20mg" required>
+                    <input type="text" id="concentracao" name="concentracao" placeholder="Ex: 500mg, 20mg" required>
                 </div>
                 
                 <div>
                     <label for="forma_farmaceutica">Forma Farmacêutica:</label>
-                    <select id="forma_farmaceutica" required>
+                    <select id="forma_farmaceutica" name="forma_farmaceutica" required>
                         <option value="">Selecione a Forma</option>
-                        <option value="Comprimido">Comprimido</option>
-                        <option value="Capsula">Cápsula</option>
-                        <option value="Solucao">Solução</option>
-                        <option value="Injetavel">Injetável</option>
-                        <option value="Pomada">Pomada</option>
+                        <option value="comprimido">Comprimido</option>
+                        <option value="capsula">Cápsula</option>
+                        <option value="solucao">Solução</option>
+                        <option value="injetavel">Injetável</option>
+                        <option value="pomada">Pomada</option>
                     </select>
                 </div>
 
                 <div>
                     <label for="unidade_medida">Unidade de Medida (Estoque):</label>
-                    <select id="unidade_medida" required>
+                    <select id="unidade_medida" name="unidade_medida" required>
                         <option value="">Selecione a Unidade</option>
-                        <option value="Comprimido">Comprimido</option>
+                        <option value="comprimido">Comprimido</option>
                         <option value="ml">Mililitro</option>
                         <option value="mg">Miligrama</option>
-                        <option value="Unidade">Unidade (caixa/frasco)</option>
+                        <option value="unidade">Unidade (caixa/frasco)</option>
                     </select>
                 </div>
 
                 <div>
                     <label for="estoque_minimo">Estoque Mínimo (Alerta):</label>
-                    <input type="number" id="estoque_minimo" min="0" value="10" required>
+                    <input type="number" id="estoque_minimo" name="estoque_minimo" min="0" value="10" required>
                 </div>
 
                 <div class="full-width checkbox-field">
-                    <input type="checkbox" id="controlado">
+                    <input type="checkbox" id="controlado" name="controlado">
                     <label for="controlado">É um Medicamento Controlado (Requer Receita Especial)?</label>
                 </div>
                 
                 <div class="full-width">
-                    <button type="submit" id="submitCadastro" disabled>
-                        Aguardando Login...
+                    <button type="submit" id="submitCadastro">
+                        Cadastrar Medicamento
                     </button>
                 </div>
             </form>
@@ -164,7 +163,7 @@
             <span class="close-btn" onclick="closeModal('retiradaModal')">&times;</span>
             <h2>Retirada de Receita e Saída de Estoque</h2>
             <p>Preencha os dados abaixo para registrar a dispensa de medicamento e dar baixa no estoque.</p>
-            <form onsubmit="event.preventDefault(); showMessage('retiradaMessage', 'Retirada registrada e estoque atualizado! (Função de salvar no BD ainda não implementada)', 'success');">
+            <form>
                 <div>
                     <label for="medicamento_retirada">Medicamento:</label>
                     <select id="medicamento_retirada" required>
@@ -196,30 +195,33 @@
             <span class="close-btn" onclick="closeModal('loteModal')">&times;</span>
             <h2>Entrada de Novo Lote no Estoque</h2>
             <p>Preencha os detalhes para adicionar um novo lote de medicamentos ao seu inventário.</p>
-            <form onsubmit="event.preventDefault(); showMessage('loteMessage', 'Novo lote adicionado com sucesso! (Função de salvar no BD ainda não implementada)', 'success');">
+            
+            <form id="loteForm" action="{% url 'entrada_lote' %}" method="POST">
+                {% csrf_token %}
+                <div id="loteMessage" class="message-box" style="display:none;"></div>
+
                 <div>
                     <label for="medicamento_lote">Medicamento:</label>
-                    <select id="medicamento_lote" required>
+                    <select id="medicamento_lote" name="medicamento_lote" required>
                         <option value="">Carregando Medicamentos...</option>
                     </select>
                 </div>
                 <div>
                     <label for="numero_lote">Número do Lote:</label>
-                    <input type="text" id="numero_lote" required>
+                    <input type="text" id="numero_lote" name="numero_lote" required>
                 </div>
                 <div>
                     <label for="quantidade_lote">Quantidade Recebida:</label>
-                    <input type="number" id="quantidade_lote" min="1" required>
+                    <input type="number" id="quantidade_lote" name="quantidade_lote" min="1" required>
                 </div>
                 <div>
                     <label for="data_vencimento">Data de Vencimento:</label>
-                    <input type="date" id="data_vencimento" required>
+                    <input type="date" id="data_vencimento" name="data_vencimento" required>
                 </div>
                 <div class="full-width">
-                    <button type="submit">Adicionar Lote</button>
+                    <button type="submit" id="submitLote">Adicionar Lote</button>
                 </div>
             </form>
-            <div id="loteMessage" class="message-box" style="display:none;"></div>
         </div>
     </div>
 
@@ -289,30 +291,10 @@
         </div>
     </div>
     
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, addDoc, onSnapshot, collection, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <script>
+        // --- FUNÇÕES GERAIS DE UI ---
 
-        // Configuração do Firebase e variáveis globais
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        let db;
-        let auth;
-        let userId = null;
-        let isAuthReady = false; // Estado para controlar a prontidão da autenticação
-
-        // Referência aos elementos de UI
-        const submitCadastroButton = document.getElementById('submitCadastro');
-        const authStatusMessage = document.getElementById('authStatusMessage');
-
-        // Ativa o log para debug no console
-        setLogLevel('debug');
-        
-        // Função para exibir mensagens na UI
-        function showMessage(elementId, message, type) {
+        window.showMessage = function(elementId, message, type) {
             const element = document.getElementById(elementId);
             if (!element) return;
             element.textContent = message;
@@ -323,165 +305,18 @@
             }, 3000);
         }
 
-        // --- 1. FUNÇÃO DE CADASTRO NO FIRESTORE ---
-        async function addMedicamento(event) {
-            event.preventDefault();
-            const form = event.target;
-            const messageBoxId = 'cadastroMessage';
-            
-            // Verifica a autenticação antes de tentar o Firestore
-            if (!isAuthReady || !userId) {
-                showMessage(messageBoxId, 'Erro de autenticação: Aguarde o login ou recarregue a página.', 'error');
-                return;
-            }
-
-            const novoMedicamento = {
-                nome_comercial: document.getElementById('nome_comercial').value,
-                principio_ativo: document.getElementById('principio_ativo').value,
-                concentracao: document.getElementById('concentracao').value,
-                forma_farmaceutica: document.getElementById('forma_farmaceutica').value,
-                unidade_medida: document.getElementById('unidade_medida').value,
-                estoque_minimo: parseInt(document.getElementById('estoque_minimo').value),
-                controlado: document.getElementById('controlado').checked,
-                estoque_atual: 0, 
-                cadastrado_por: userId,
-                data_cadastro: new Date().toISOString(),
-            };
-
-            try {
-                // Caminho da coleção pública: /artifacts/{appId}/public/data/medicamentos
-                const collectionPath = `artifacts/${appId}/public/data/medicamentos`;
-                
-                await addDoc(collection(db, collectionPath), novoMedicamento);
-                
-                showMessage(messageBoxId, `Medicamento "${novoMedicamento.nome_comercial}" cadastrado com sucesso!`, 'success');
-                form.reset();
-                setTimeout(() => closeModal('cadastroRemedioModal'), 2000);
-
-            } catch (e) {
-                console.error("Erro ao adicionar documento: ", e);
-                showMessage(messageBoxId, 'Erro ao cadastrar: ' + e.message, 'error');
+        window.openModal = function(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            // Quando os modais de Retirada ou Lote abrem, carregamos a lista
+            if (modalId === 'retiradaModal' || modalId === 'loteModal') {
+                loadMedicamentosList();
             }
         }
 
-        // --- 2. FUNÇÃO DE CARREGAMENTO EM TEMPO REAL (ONSNAPSHOT) ---
-        function loadMedicamentos(database) {
-            if (!database || !userId || !isAuthReady) return;
-
-            const selectElementRetirada = document.getElementById('medicamento_retirada');
-            const selectElementLote = document.getElementById('medicamento_lote');
-            
-            const collectionPath = `artifacts/${appId}/public/data/medicamentos`;
-
-            onSnapshot(collection(database, collectionPath), (snapshot) => {
-                
-                selectElementRetirada.innerHTML = '<option value="">Selecione o Medicamento</option>';
-                selectElementLote.innerHTML = '<option value="">Selecione o Medicamento</option>';
-
-                if (snapshot.empty) {
-                    selectElementRetirada.innerHTML = '<option value="">Nenhum medicamento cadastrado</option>';
-                    selectElementLote.innerHTML = '<option value="">Nenhum medicamento cadastrado</option>';
-                    return;
-                }
-
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const optionText = data.nome_comercial + ' (' + data.concentracao + ')';
-                    
-                    const optionRetirada = document.createElement('option');
-                    optionRetirada.value = doc.id; 
-                    optionRetirada.textContent = optionText;
-                    selectElementRetirada.appendChild(optionRetirada);
-                    
-                    const optionLote = optionRetirada.cloneNode(true);
-                    selectElementLote.appendChild(optionLote);
-                });
-
-                console.log("Lista de medicamentos atualizada em tempo real.");
-
-            }, (error) => {
-                console.error("Erro ao carregar medicamentos:", error);
-                selectElementRetirada.innerHTML = '<option value="">Erro ao carregar lista</option>';
-                selectElementLote.innerHTML = '<option value="">Erro ao carregar lista</option>';
-            });
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
 
-
-        // --- 3. INICIALIZAÇÃO E AUTENTICAÇÃO DO FIREBASE ---
-        if (Object.keys(firebaseConfig).length > 0) {
-            try {
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-                
-                // 4. Observa o estado de autenticação
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        isAuthReady = true; // Define a autenticação como pronta
-                        console.log("Estoque: Usuário autenticado com UID:", userId);
-                        
-                        // HABILITA O BOTÃO E REMOVE MENSAGEM DE CARREGAMENTO
-                        if (submitCadastroButton) {
-                            submitCadastroButton.disabled = false;
-                            submitCadastroButton.textContent = 'Cadastrar Medicamento';
-                        }
-                        if (authStatusMessage) {
-                            authStatusMessage.style.display = 'none'; 
-                        }
-                        
-                        // INICIA O CARREGAMENTO DOS DADOS ASSIM QUE O USUÁRIO ESTÁ PRONTO
-                        loadMedicamentos(db); 
-                    } else {
-                        // Tenta autenticar ou usa anônimo se o token não estiver disponível
-                        try {
-                            if (initialAuthToken) {
-                                // Tenta login com token customizado (espera a primeira chamada)
-                                await signInWithCustomToken(auth, initialAuthToken);
-                            } else {
-                                // Login anônimo (fallback)
-                                await signInAnonymously(auth);
-                            }
-                            // O onAuthStateChanged será chamado novamente com o usuário logado
-                        } catch (error) {
-                            console.error("Estoque Auth Error:", error);
-                            if (authStatusMessage) {
-                                authStatusMessage.textContent = 'Erro ao conectar ao Firebase. Recarregue a página.';
-                                authStatusMessage.className = 'message-box error';
-                            }
-                        }
-                    }
-                });
-            } catch (error) {
-                // Erro de inicialização do app (problema na config)
-                console.error("Erro na inicialização do Firebase:", error);
-                if (authStatusMessage) {
-                    authStatusMessage.textContent = 'ERRO: Configuração do sistema inválida.';
-                    authStatusMessage.className = 'message-box error';
-                }
-            }
-        } else {
-            // Configuração do Firebase não foi fornecida
-            console.error("A configuração do Firebase não foi fornecida.");
-            if (authStatusMessage) {
-                authStatusMessage.textContent = 'ERRO: Configuração do sistema ausente. Entre em contato com o suporte.';
-                authStatusMessage.className = 'message-box error';
-            }
-        }
-
-
-        // --- 5. LIGAÇÃO DO FORMULÁRIO COM A FUNÇÃO ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const cadastroForm = document.getElementById('cadastroForm');
-            if (cadastroForm) {
-                cadastroForm.addEventListener('submit', addMedicamento);
-            }
-        });
-
-
-        // --- FUNÇÕES GERAIS DE UI (MANTIDAS) ---
-
-        // Função para atualizar o relógio
         function updateTime() {
             const now = new Date();
             const timeString = now.toLocaleTimeString('pt-BR', { 
@@ -495,20 +330,9 @@
             }
         }
 
-        // Inicializa o relógio
         updateTime();
         setInterval(updateTime, 1000);
 
-        // Funções para controle dos Modals
-        window.openModal = function(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-        }
-
-        window.closeModal = function(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Fecha o modal se o usuário clicar fora dele
         window.onclick = function(event) {
             const modals = document.querySelectorAll('.modal');
             modals.forEach(modal => {
@@ -517,6 +341,135 @@
                 }
             });
         }
+        
+        // --- FUNÇÕES AJAX/DJANGOS ---
+
+        // Função para carregar os medicamentos via API Django
+        async function loadMedicamentosList() {
+            const selectRetirada = document.getElementById('medicamento_retirada');
+            const selectLote = document.getElementById('medicamento_lote');
+
+            selectRetirada.innerHTML = '<option value="">Carregando...</option>';
+            selectLote.innerHTML = '<option value="">Carregando...</option>';
+            
+            try {
+                // Rota para a nova view Django
+                // Nota: Assuma que 'api_medicamentos' está configurada no urls.py
+                const response = await fetch('{% url "api_medicamentos" %}');
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    const medicamentos = data.medicamentos;
+                    
+                    selectRetirada.innerHTML = '<option value="">Selecione o Medicamento</option>';
+                    selectLote.innerHTML = '<option value="">Selecione o Medicamento</option>';
+
+                    if (medicamentos.length === 0) {
+                        selectRetirada.innerHTML = '<option value="">Nenhum medicamento cadastrado</option>';
+                        selectLote.innerHTML = '<option value="">Nenhum medicamento cadastrado</option>';
+                        return;
+                    }
+
+                    medicamentos.forEach(med => {
+                        const optionRetirada = document.createElement('option');
+                        optionRetirada.value = med.id;
+                        optionRetirada.textContent = med.nome;
+                        selectRetirada.appendChild(optionRetirada);
+                        
+                        const optionLote = optionRetirada.cloneNode(true);
+                        selectLote.appendChild(optionLote);
+                    });
+
+                } else {
+                    throw new Error(data.message || 'Falha ao buscar lista.');
+                }
+
+            } catch (error) {
+                console.error("Erro ao carregar medicamentos:", error);
+                const errorMessage = 'Erro ao carregar medicamentos. Recarregue a página.';
+                selectRetirada.innerHTML = `<option value="">${errorMessage}</option>`;
+                selectLote.innerHTML = `<option value="">${errorMessage}</option>`;
+            }
+        }
+
+
+        // Submissão do Formulário de Cadastro
+        async function submitCadastroForm(event) {
+            event.preventDefault();
+            const cadastroForm = document.getElementById('cadastroForm');
+            const messageBoxId = 'cadastroMessage';
+            
+            const formData = new FormData(cadastroForm);
+            
+            showMessage(messageBoxId, 'Processando cadastro...', 'info');
+
+            try {
+                const response = await fetch(cadastroForm.action, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showMessage(messageBoxId, result.message, 'success');
+                    cadastroForm.reset();
+                    setTimeout(() => closeModal('cadastroRemedioModal'), 2000);
+                } else {
+                    showMessage(messageBoxId, result.message || 'Erro desconhecido ao cadastrar.', 'error');
+                }
+            } catch (e) {
+                console.error("Erro ao enviar o formulário:", e);
+                showMessage(messageBoxId, 'Erro de comunicação com o servidor.', 'error');
+            }
+        }
+        
+        // Submissão do Formulário de Lote (NOVO)
+        async function addNovoLote(event) {
+            event.preventDefault();
+            const loteForm = document.getElementById('loteForm');
+            const messageBoxId = 'loteMessage';
+
+            const formData = new FormData(loteForm);
+            
+            showMessage(messageBoxId, 'Registrando entrada de lote...', 'info');
+
+            try {
+                // Envia os dados para a nova view Django
+                const response = await fetch(loteForm.action, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showMessage(messageBoxId, result.message, 'success');
+                    loteForm.reset();
+                    // Fecha o modal e recarrega a lista
+                    setTimeout(() => closeModal('loteModal'), 2000); 
+                    loadMedicamentosList(); 
+                } else {
+                    showMessage(messageBoxId, result.message || 'Erro desconhecido ao registrar o lote.', 'error');
+                }
+            } catch (e) {
+                console.error("Erro ao enviar o formulário de lote:", e);
+                showMessage(messageBoxId, 'Erro de comunicação com o servidor.', 'error');
+            }
+        }
+
+        // --- INICIALIZAÇÃO E LIGAÇÃO DE EVENTOS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const cadastroForm = document.getElementById('cadastroForm');
+            if (cadastroForm) {
+                cadastroForm.addEventListener('submit', submitCadastroForm);
+            }
+            
+            const loteForm = document.getElementById('loteForm');
+            if (loteForm) {
+                loteForm.addEventListener('submit', addNovoLote);
+            }
+        });
     </script>
 
 </body>

@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
-from .models import Usuarios
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse 
+from django.views.decorators.http import require_POST 
 from django.contrib.auth.hashers import check_password, make_password
-from django.contrib import messages # Importação crucial para mensagens de sucesso/erro
-from datetime import datetime # Necessário para preencher o campo 'criado_em' do modelo Usuarios
-
+from django.contrib import messages
+from django.utils import timezone 
+from datetime import datetime
+# Garanta que Movimentacoes está na sua importação das models
+from .models import Usuarios, Medicamentos, Estoque, Movimentacoes 
 
 # ----------------------------------------------------
-# View para a página de login
+# Funções de Autenticação
 # ----------------------------------------------------
 
 def login_view(request):
@@ -37,7 +40,6 @@ def login_view(request):
             if check_password(senha_digitada, usuario.senha_hash):
                 
                 # SUCESSO! Criação da sessão nativa do Django
-                # Armazenar ID, Email e Cargo (útil para uso posterior nos templates)
                 request.session['usuario_id'] = usuario.id
                 request.session['usuario_email'] = usuario.email
                 request.session['usuario_nome'] = usuario.nome
@@ -67,7 +69,7 @@ def login_view(request):
 
 
 # ----------------------------------------------------
-# Função de Cadastro
+# Função de Cadastro de Usuário
 # ----------------------------------------------------
 
 def cadastro_view(request):
@@ -100,14 +102,14 @@ def cadastro_view(request):
                 email=email,
                 senha_hash=senha_hash,
                 cargo=cargo,
-                # O CAMPO 'criado_em' DEVE SER PREENCHIDO (usamos a hora atual)
-                criado_em=datetime.now() 
+                # CORRIGIDO: Usando timezone.now() que é compatível com o Django
+                criado_em=timezone.now() 
             )
             
             # 6. Adicionar mensagem de sucesso e redirecionar para o login
             messages.success(request, f'Usuário {nome} cadastrado com sucesso! Faça login abaixo.')
-            # CORRIGIDO o nome da rota de redirect, conforme urls.py
-            return redirect('login_view') 
+            # CORREÇÃO APLICADA AQUI:
+            return redirect('login') 
             
         except Exception as e:
             print(f"Erro ao salvar usuário: {e}")
@@ -118,30 +120,165 @@ def cadastro_view(request):
 
 
 # ----------------------------------------------------
+# Função de Cadastro de Medicamento
+# ----------------------------------------------------
+
+@require_POST
+def cadastro_medicamento(request):
+    """
+    Lida com o processamento da submissão do formulário de Cadastro de Novo Medicamento 
+    e salva os dados nas tabelas Medicamentos e Estoque.
+    """
+    # Checagem de Sessão (Importante para proteger a rota de POST)
+    if 'usuario_id' not in request.session:
+        return JsonResponse({'status': 'error', 'message': 'Acesso negado. Sessão expirada.'}, status=401)
+        
+    try:
+        nome_comercial = request.POST.get('nome_comercial')
+        principio_ativo = request.POST.get('principio_ativo')
+        concentracao = request.POST.get('concentracao')
+        forma_farmaceutica = request.POST.get('forma_farmaceutica')
+        unidade_medida = request.POST.get('unidade_medida')
+        estoque_minimo = request.POST.get('estoque_minimo', 10)
+        controlado = request.POST.get('controlado') == 'on' 
+
+        # 1. Cria o registro base do medicamento
+        medicamento = Medicamentos.objects.create(
+            nome_comercial=nome_comercial,
+            principio_ativo=principio_ativo,
+            concentracao=concentracao,
+            forma_farmaceutica=forma_farmaceutica,
+            unidade_medida=unidade_medida,
+            controlado=controlado,
+            criado_em=timezone.now(),
+        )
+        
+        # 2. Cria o registro de estoque
+        Estoque.objects.create(
+            medicamento=medicamento,
+            quantidade=0, 
+            alerta_minimo=int(estoque_minimo),
+            atualizado_em=timezone.now()
+        )
+
+        return JsonResponse({'status': 'success', 'message': f'Medicamento "{nome_comercial}" cadastrado com sucesso!'})
+
+    except Exception as e:
+        print(f"Erro no cadastro de medicamento: {e}")
+        return JsonResponse({'status': 'error', 'message': f'Erro ao cadastrar: {str(e)}'}, status=400)
+
+
+# ----------------------------------------------------
+# API: Carregar Lista de Medicamentos
+# ----------------------------------------------------
+
+def carregar_medicamentos(request):
+    """Retorna uma lista de medicamentos cadastrados em formato JSON."""
+    if 'usuario_id' not in request.session:
+        return JsonResponse({'status': 'error', 'message': 'Acesso negado.'}, status=401)
+        
+    try:
+        # Busca todos os medicamentos
+        medicamentos = Medicamentos.objects.all().order_by('nome_comercial')
+        
+        # Formata os dados para JSON
+        lista_medicamentos = [
+            {
+                'id': med.id,
+                # Combina nome comercial e concentração para melhor exibição
+                'nome': f"{med.nome_comercial} ({med.concentracao or 'S/C'})", 
+            }
+            for med in medicamentos
+        ]
+        
+        return JsonResponse({'status': 'success', 'medicamentos': lista_medicamentos})
+    
+    except Exception as e:
+        print(f"Erro ao carregar medicamentos: {e}")
+        return JsonResponse({'status': 'error', 'message': 'Erro ao buscar lista de medicamentos.'}, status=500)
+
+
+# ----------------------------------------------------
+# API: Entrada de Novo Lote
+# ----------------------------------------------------
+
+@require_POST
+def entrada_lote(request):
+    """
+    Processa a entrada de um novo lote: atualiza o estoque e registra a movimentação.
+    """
+    if 'usuario_id' not in request.session:
+        return JsonResponse({'status': 'error', 'message': 'Acesso negado. Sessão expirada.'}, status=401)
+        
+    try:
+        # Dados do formulário
+        medicamento_id = request.POST.get('medicamento_lote')
+        numero_lote = request.POST.get('numero_lote')
+        quantidade = int(request.POST.get('quantidade_lote'))
+        data_vencimento_str = request.POST.get('data_vencimento')
+        
+        # Busca objetos
+        medicamento = get_object_or_404(Medicamentos, pk=medicamento_id)
+        estoque_item = get_object_or_404(Estoque, medicamento=medicamento)
+        usuario_responsavel = get_object_or_404(Usuarios, pk=request.session['usuario_id'])
+
+        # 1. Conversão de Data
+        data_vencimento = datetime.strptime(data_vencimento_str, '%Y-%m-%d').date()
+
+        # 2. Atualiza o registro principal do Medicamento (com o lote mais recente)
+        medicamento.lote = numero_lote
+        medicamento.validade = data_vencimento
+        medicamento.save()
+        
+        # 3. Atualiza o Estoque: Incrementa a quantidade
+        estoque_item.quantidade += quantidade
+        estoque_item.atualizado_em = timezone.now()
+        estoque_item.save()
+        
+        # 4. Cria o registro de Movimentação (tipo 'entrada')
+        Movimentacoes.objects.create(
+            medicamento=medicamento,
+            usuario=usuario_responsavel,
+            tipo='entrada',
+            quantidade=quantidade,
+            data_movimentacao=timezone.now(),
+            observacao=f"Entrada de novo Lote: {numero_lote}. Vencimento: {data_vencimento_str}"
+        )
+
+        return JsonResponse({'status': 'success', 'message': f'{quantidade} unidades do lote "{numero_lote}" de {medicamento.nome_comercial} adicionadas ao estoque.'})
+
+    except ValueError:
+        return JsonResponse({'status': 'error', 'message': 'A quantidade ou ID do medicamento são inválidos.'}, status=400)
+    except Exception as e:
+        print(f"Erro na entrada de lote: {e}")
+        return JsonResponse({'status': 'error', 'message': f'Erro ao registrar entrada: {str(e)}'}, status=400)
+
+
+# ----------------------------------------------------
 # Funções de Navegação (PROTEGIDAS)
 # ----------------------------------------------------
 
 def index(request):
-    # CHECAGEM DE SESSÃO: Se não estiver logado, redireciona para o login
+    # CHECAGEM DE SESSÃO
     if 'usuario_id' not in request.session:
-        # CORRIGIDO o nome da rota de redirect, conforme urls.py
-        return redirect('login_view') 
+        # CORREÇÃO APLICADA AQUI:
+        return redirect('login') 
         
     return render(request, 'catalogo/index.html')
 
 def estoque(request):
-    # CHECAGEM DE SESSÃO: Se não estiver logado, redireciona para o login
+    # CHECAGEM DE SESSÃO
     if 'usuario_id' not in request.session:
-        # CORRIGIDO o nome da rota de redirect, conforme urls.py
-        return redirect('login_view')
+        # CORREÇÃO APLICADA AQUI:
+        return redirect('login')
         
     return render(request, 'catalogo/estoque.html')
 
 def inserir(request):
-    # CHECAGEM DE SESSÃO: Se não estiver logado, redireciona para o login
+    # CHECAGEM DE SESSÃO
     if 'usuario_id' not in request.session:
-        # CORRIGIDO o nome da rota de redirect, conforme urls.py
-        return redirect('login_view') 
+        # CORREÇÃO APLICADA AQUI:
+        return redirect('login') 
         
     return render(request, 'catalogo/inserir.html')
 
@@ -157,5 +294,5 @@ def logout_view(request):
     request.session.pop('usuario_nome', None)
     request.session.pop('usuario_cargo', None)
         
-    # CORRIGIDO o nome da rota de redirect, conforme urls.py
-    return redirect('login_view')
+    # CORREÇÃO APLICADA AQUI:
+    return redirect('login')

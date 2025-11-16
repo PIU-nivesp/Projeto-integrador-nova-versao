@@ -22,7 +22,7 @@
                 <h1>Acesso ao Sistema MedFarma</h1>
             </div>
             
-            <form id="loginForm" class="login-form" method="POST" action="{% url 'login_view' %}">
+            <form id="loginForm" class="login-form" method="POST" action="{% url 'login' %}">
                 {% csrf_token %}
 
                 <div class="form-group">

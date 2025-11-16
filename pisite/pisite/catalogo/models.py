@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone 
 
 # --- Definições de Choices (substituindo ENUM) ---
 
@@ -26,16 +27,23 @@ PERIODO_CHOICES = (
     ('mensal', 'Mensal'),
 )
 
+# Choices para Forma Farmacêutica
+FORMA_CHOICES = (
+    ('comprimido', 'Comprimido'),
+    ('capsula', 'Cápsula'),
+    ('solucao', 'Solução'),
+    ('injetavel', 'Injetável'),
+    ('pomada', 'Pomada'),
+)
+
 # -------------------------------------------------
 
 ## Tabela usuarios
 class Usuarios(models.Model):
-    # O campo 'id' (INT PRIMARY KEY AUTO_INCREMENT) é criado automaticamente pelo Django
     nome = models.CharField(max_length=100)
     email = models.EmailField(max_length=100, unique=True)
     senha_hash = models.CharField(max_length=255)
     cargo = models.CharField(max_length=15, choices=CARGO_CHOICES)
-    # CORRIGIDO: Removido auto_now_add=True para permitir carregamento via fixture
     criado_em = models.DateTimeField() 
 
     def __str__(self):
@@ -45,21 +53,28 @@ class Usuarios(models.Model):
         db_table = 'usuarios'
         verbose_name_plural = 'Usuários'
 
-## Tabela medicamentos
+## Tabela medicamentos (CORRIGIDA)
 class Medicamentos(models.Model):
-    nome = models.CharField(max_length=150)
+    # CAMPOS QUE ESTAVAM FALTANDO (CAUSANDO O ERRO)
+    nome_comercial = models.CharField(max_length=150) 
+    principio_ativo = models.CharField(max_length=150, null=True, blank=True) 
+    concentracao = models.CharField(max_length=50, null=True, blank=True) 
+    forma_farmaceutica = models.CharField(max_length=50, choices=FORMA_CHOICES, default='comprimido') 
+    controlado = models.BooleanField(default=False) 
+    
+    # Campos ajustados/mantidos
     descricao = models.TextField(null=True, blank=True)
     codigo_barras = models.CharField(max_length=80, unique=True, null=True, blank=True)
-    fabricante = models.CharField(max_length=100)
-    lote = models.CharField(max_length=200)
-    validade = models.DateField()
+    fabricante = models.CharField(max_length=100, null=True, blank=True) 
+    lote = models.CharField(max_length=200, null=True, blank=True) 
+    validade = models.DateField(null=True, blank=True) 
+    
     unidade_medida = models.CharField(max_length=15, choices=UNIDADE_CHOICES)
-    # ESTA É A CORREÇÃO CRÍTICA:
     criado_em = models.DateTimeField() 
     imagem = models.CharField(max_length=150, null=True, blank=True)
 
     def __str__(self):
-        return self.nome
+        return f"{self.nome_comercial} ({self.concentracao or 'N/A'})"
 
     class Meta:
         db_table = 'medicamentos'
@@ -72,7 +87,6 @@ class Fornecedores(models.Model):
     telefone = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField(max_length=100, null=True, blank=True)
     endereco = models.TextField(null=True, blank=True)
-    # CORRIGIDO: Removido auto_now_add=True para permitir carregamento via fixture
     criado_em = models.DateTimeField() 
 
     def __str__(self):
@@ -89,7 +103,6 @@ class Receitas(models.Model):
     crm_medico = models.CharField(max_length=20)
     data_prescricao = models.DateField()
     observacao = models.TextField(null=True, blank=True)
-    # CORRIGIDO: Removido auto_now_add=True para permitir carregamento via fixture
     criado_em = models.DateTimeField()
 
     def __str__(self):
@@ -100,13 +113,11 @@ class Receitas(models.Model):
         verbose_name_plural = 'Receitas'
 
 
-## Tabela estoque
+## Tabela estoque 
 class Estoque(models.Model):
-    # FOREIGN KEY (medicamento_id) REFERENCES medicamentos(id) ON DELETE CASCADE
     medicamento = models.ForeignKey(Medicamentos, on_delete=models.CASCADE) 
     quantidade = models.IntegerField()
     alerta_minimo = models.IntegerField(default=10)
-    # CORRIGIDO: Removido auto_now=True para permitir carregamento via fixture
     atualizado_em = models.DateTimeField() 
 
     class Meta:
@@ -116,16 +127,12 @@ class Estoque(models.Model):
 
 ## Tabela movimentacoes
 class Movimentacoes(models.Model):
-    # FOREIGN KEY (medicamento_id) REFERENCES medicamentos(id) ON DELETE CASCADE
     medicamento = models.ForeignKey(Medicamentos, on_delete=models.CASCADE)
-    # FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
     usuario = models.ForeignKey(Usuarios, on_delete=models.SET_NULL, null=True, blank=True) 
-    # FOREIGN KEY (receita_id) REFERENCES receitas(id) ON DELETE SET NULL
     receita = models.ForeignKey(Receitas, on_delete=models.SET_NULL, null=True, blank=True)
     
     tipo = models.CharField(max_length=7, choices=TIPO_MOVIMENTACAO_CHOICES)
     quantidade = models.IntegerField()
-    # CORRIGIDO: Removido auto_now_add=True para permitir carregamento via fixture
     data_movimentacao = models.DateTimeField()
     observacao = models.TextField(null=True, blank=True)
 
@@ -137,10 +144,8 @@ class Movimentacoes(models.Model):
 class Versoes(models.Model):
     tabela_afetada = models.CharField(max_length=50)
     registro_id = models.IntegerField()
-    # FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
     usuario = models.ForeignKey(Usuarios, on_delete=models.SET_NULL, null=True, blank=True)
     alteracao = models.TextField()
-    # CORRIGIDO: Removido auto_now_add=True para permitir carregamento via fixture
     data_alteracao = models.DateTimeField()
 
     class Meta:
@@ -149,13 +154,10 @@ class Versoes(models.Model):
 
 ## Tabela consumo
 class Consumo(models.Model):
-    # FOREIGN KEY (medicamento_id) REFERENCES medicamentos(id) ON DELETE CASCADE
     medicamento = models.ForeignKey(Medicamentos, on_delete=models.CASCADE)
     periodo = models.CharField(max_length=10, choices=PERIODO_CHOICES)
     quantidade_consumida = models.IntegerField()
-    # FOREIGN KEY (receita_id) REFERENCES receitas(id) ON DELETE SET NULL
     receita = models.ForeignKey(Receitas, on_delete=models.SET_NULL, null=True, blank=True)
-    # CORRIGIDO: Removido auto_now_add=True para permitir carregamento via fixture
     data_registro = models.DateTimeField()
 
     class Meta:

@@ -12,12 +12,14 @@ urlpatterns = [
     # URLs do Django Admin
     path('admin/', admin.site.urls),
 
+    # ----------------------------------------------------
     # URLs da Aplicação 'catalogo'
+    # ----------------------------------------------------
     
-    # Rota raiz: Mapeada para o login, NOME CORRIGIDO para 'login_view'.
-    path('', views.login_view, name='login_view'),
+    # Rota raiz: Mapeada para o login, nomeada como 'login' para redirecionamentos.
+    path('', views.login_view, name='login'),
     
-    # NOVO: Rota para a página de Cadastro
+    # Rota para a página de Cadastro de Usuário
     path('cadastro', views.cadastro_view, name='cadastro'),
     
     # Rota para a página principal (Home)
@@ -29,6 +31,15 @@ urlpatterns = [
     # Rota para a página de inserção de dados
     path('inserir', views.inserir, name='inserir'),
 
+    # Rota para processar o cadastro de medicamento (POST/AJAX)
+    path('cadastro_medicamento', views.cadastro_medicamento, name='cadastro_medicamento'),
+    
+    # NOVO: Rota para processar a entrada de novo lote (POST/AJAX)
+    path('entrada_lote', views.entrada_lote, name='entrada_lote'),
+    
+    # NOVO: Rota API para buscar medicamentos (GET/AJAX). Usamos 'api/' para organizar.
+    path('api/medicamentos', views.carregar_medicamentos, name='api_medicamentos'),
+    
     # Rota para o logout (limpa a sessão)
     path('logout', views.logout_view, name='logout'),
 ]
