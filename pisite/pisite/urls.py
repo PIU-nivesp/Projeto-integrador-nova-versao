@@ -14,8 +14,11 @@ urlpatterns = [
 
     # URLs da Aplicação 'catalogo'
     
-    # Rota raiz: Mapeada para o login, nomeada como 'login' para redirecionamentos.
-    path('', views.login_view, name='login'),
+    # Rota raiz: Mapeada para o login, NOME CORRIGIDO para 'login_view'.
+    path('', views.login_view, name='login_view'),
+    
+    # NOVO: Rota para a página de Cadastro
+    path('cadastro', views.cadastro_view, name='cadastro'),
     
     # Rota para a página principal (Home)
     path('home', views.index, name='index'),

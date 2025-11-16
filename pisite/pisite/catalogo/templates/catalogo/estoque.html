@@ -1,261 +1,523 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedFarma</title>
+    <title>MedFarma - Gerência de Estoque</title>
 
-    <!-- Inclusão do script do accessibility-plugin via CDN -->
     <script src="https://cdn.jsdelivr.net/gh/PrabothCharith/accessibility-plugin@main/accessibility-menu.min.js"></script>
 
-    <!-- CSS DO BOTÃO DE ACESSIBILIDADE -->
-     <style>
-        #accessibility-modal.close {
-        position: fixed;
-        top: 150px;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'catalogo/index_style.css' %}">
     
-    <style>
-        /* Reset básico de margens e preenchimentos */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Cor de fundo e fonte padrão */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f9fc;
-            color: #333;
-        }
-
-        /* Estilo para a barra de navegação */
-        .navbar {
-            background-color: #004d99; /* Azul escuro */
-            padding: 15px 0;
-        }
-
-        .navbar-container {
-            width: 80%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar-brand {
-            color: white;
-            text-decoration: none;
-        }
-
-        .navbar-brand img{
-            width: 30%;
-        }
-
-        .navbar-links {
-            display: flex;
-            justify-content: flex-end; /* Alinha o item para o final horizontalmente */
-        }
-
-        .navbar-links img{
-            width: 30%;
-        }
-
-        .navbar-links a {
-            display: flex;
-            justify-content: end;
-            color: white;
-            text-decoration: none;
-        }
-
-        /* Estilo da seção de assinatura */
-        .subscribe-section {
-            text-align: center;
-            padding: 50px 20px;
-            background-color: #0066cc;
-            color: white;
-        }
-
-        .subscribe-btn:hover {
-            background-color: #ff6600;
-        }
-
-        /* Estilo das seções de produtos */
-        .products-section {
-            padding: 50px 20px;
-            text-align: center;
-            max-width: 1000px; /* Largura máxima para o container */
-            margin: 0 auto; /* Centraliza o container na tela */
-        }
-
-        .section-title {
-            padding: 0px 10px;
-            font-size: 1.75em;
-            font-weight: bold;
-            color: #004d99;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .seta{
-            width: 10%;
-        }
-
-        /* Estilo dos produtos */
-        .products {
-            margin-bottom: 35px;
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .product {
-            background-color: white;
-            padding: 15px;
-            width: 220px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .product:hover {
-            transform: translateY(-5px);
-        }
-
-        .product img {
-            width: 40%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .product p {
-            margin-bottom: 10px;
-            font-size: 1.1em;
-            color: #333;
-        }
-
-        /* Estilo de avaliações com estrelas */
-        .stars {
-            color: #ffcc00;
-            margin-bottom: 10px;
-        }
-
-        .stars i {
-            font-size: 18px;
-        }
-
-        .product button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .product button:hover {
-            background-color: #218838;
-        }
-
-        /* Alinhamento e espaçamento entre as seções */
-        .section-title + .products {
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="stylesheet" href="{% static 'catalogo/estoque_style.css' %}">
+    
 </head>
 
 <body>
 
-    <!-- Barra de Navegação -->
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="#" class="navbar-brand"><img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/logobranca.png"></a>
-            <div class="navbar-links">
-                <a href="#"><img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/armazenamento-de-dados-1.png"></a>
-                <a href="#"><img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/alerta-1.png"></a>
+    <header class="header">
+        
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <span id="current-time"></span>
             </div>
         </div>
-    </nav>
 
-    <!-- Seção Assine para Descontos -->
-    <section class="subscribe-section">
-        <h2>Gerenciador de Estoque</h2>
-        <p>Farmácia MedFarma</p>
-    </section>
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="{% url 'index' %}" class="navbar-brand">
+                    <img src="{% static 'img/logo.png' %}" alt="MedFarma Logo">
+                    <span>MedFarma</span>
+                </a>
 
-    <!-- Seção de Produtos -->
-    <section class="products-section">
-        <h3 class="section-title">CATEGORIA</h3>
-        <div class="products">
-            <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 1">
-                <div class="stars">
+                <div class="navbar-links-main">
+                    <a href="{% url 'index' %}">Home</a>
+                    <a href="{% url 'estoque' %}">Gerência de Estoque</a>
+                    <a href="#" onclick="openModal('retiradaModal')">Retirada de Receita</a> 
+                    <a href="#">Relatórios</a>
+                    <a href="#">Contato</a>
                 </div>
-                <p>Dorflex</p>
-                <button class="add-to-cart-btn">Ver no estoque</button>
+
+                <div class="navbar-icons">
+                    <a href="{% url 'inserir' %}" class="nav-icon-link">
+                        <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/armazenamento-de-dados-1.png" alt="Armazenamento">
+                    </a>
+                    <a href="#" class="nav-icon-link">
+                        <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/alerta-1.png" alt="Alertas">
+                    </a>
+                    <a href="#" class="nav-icon-link cart-icon">
+                        <span>0</span>
+                        <img src="https://via.placeholder.com/24/ffffff/000000?text=🛒" alt="Carrinho">
+                    </a>
+                    <a href="{% url 'logout' %}" class="logout-link">Sair</a>
+                </div>
             </div>
-            <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 2">
-                <div class="stars">
-                </div>
-                <p>Neosaldina</p>
-                <button class="add-to-cart-btn">Ver no estoque</button>
+        </nav>
+    </header>
+
+    <main class="stock-main-content">
+        <h1>Painel de Gerência de Estoque</h1>
+
+        <div class="stock-grid">
+            
+            <div class="stock-button btn-cadastro" onclick="openModal('cadastroRemedioModal')">
+                <i class="icon fas fa-pills"></i>
+                <span>Cadastrar Novo Remédio</span>
             </div>
-            <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 3">
-                <div class="stars">
-                </div>
-                <p>Buscompan Composto</p>
-                <button class="add-to-cart-btn">Ver no estoque</button>
+            
+            <div class="stock-button btn-lote" onclick="openModal('loteModal')">
+                <i class="icon fas fa-boxes"></i>
+                <span>Entrada de Novo Lote</span>
             </div>
-            <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 4">
-                <div class="stars">
-                </div>
-                <p>Hipoglós</p>
-                <button class="add-to-cart-btn">Ver no estoque</button>
+
+            <div class="stock-button btn-baixo-estoque" onclick="openModal('baixoEstoqueModal')">
+                <i class="icon fas fa-exclamation-triangle"></i>
+                <span>Medicação com Baixo Estoque</span>
             </div>
-        </div>
-        <div class="products">
-            <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 1">
-                <div class="stars">
-                </div>
-                <p>Dorflex</p>
-                <button class="add-to-cart-btn">Ver no estoque</button>
-            </div>
-            <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 2">
-                <div class="stars">
-                </div>
-                <p>Neosaldina</p>
-                <button class="add-to-cart-btn">Ver no estoque</button>
-            </div>
-            <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 3">
-                <div class="stars">
-                </div>
-                <p>Buscompan Composto</p>
-                <button class="add-to-cart-btn">Ver no estoque</button>
-            </div>
-            <div class="product">
-                <img src="https://agenciatrius.com.br/advogadoBhauer/wp-content/uploads/2025/11/dorflex.jpg" alt="Produto 4">
-                <div class="stars">
-                </div>
-                <p>Hipoglós</p>
-                <button class="add-to-cart-btn">Ver no estoque</button>
+
+            <div class="stock-button btn-vencimento" onclick="openModal('vencimentoModal')">
+                <i class="icon fas fa-calendar-times"></i>
+                <span>Próximos ao Vencimento</span>
             </div>
         </div>
-    </section>
+    </main>
+
+    <div id="cadastroRemedioModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('cadastroRemedioModal')">&times;</span>
+            <h2>Cadastro de Novo Medicamento</h2>
+            
+            <div id="authStatusMessage" class="loading-message">
+                Aguardando conexão segura...
+            </div>
+            
+            <p>Insira todos os dados do novo item para registro no sistema.</p>
+            <div id="cadastroMessage" class="message-box" style="display:none;"></div>
+
+            <form id="cadastroForm">
+                
+                <div class="full-width">
+                    <label for="nome_comercial">Nome Comercial:</label>
+                    <input type="text" id="nome_comercial" required>
+                </div>
+                
+                <div class="full-width">
+                    <label for="principio_ativo">Princípio Ativo:</label>
+                    <input type="text" id="principio_ativo" required>
+                </div>
+                
+                <div>
+                    <label for="concentracao">Concentração:</label>
+                    <input type="text" id="concentracao" placeholder="Ex: 500mg, 20mg" required>
+                </div>
+                
+                <div>
+                    <label for="forma_farmaceutica">Forma Farmacêutica:</label>
+                    <select id="forma_farmaceutica" required>
+                        <option value="">Selecione a Forma</option>
+                        <option value="Comprimido">Comprimido</option>
+                        <option value="Capsula">Cápsula</option>
+                        <option value="Solucao">Solução</option>
+                        <option value="Injetavel">Injetável</option>
+                        <option value="Pomada">Pomada</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="unidade_medida">Unidade de Medida (Estoque):</label>
+                    <select id="unidade_medida" required>
+                        <option value="">Selecione a Unidade</option>
+                        <option value="Comprimido">Comprimido</option>
+                        <option value="ml">Mililitro</option>
+                        <option value="mg">Miligrama</option>
+                        <option value="Unidade">Unidade (caixa/frasco)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="estoque_minimo">Estoque Mínimo (Alerta):</label>
+                    <input type="number" id="estoque_minimo" min="0" value="10" required>
+                </div>
+
+                <div class="full-width checkbox-field">
+                    <input type="checkbox" id="controlado">
+                    <label for="controlado">É um Medicamento Controlado (Requer Receita Especial)?</label>
+                </div>
+                
+                <div class="full-width">
+                    <button type="submit" id="submitCadastro" disabled>
+                        Aguardando Login...
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="retiradaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('retiradaModal')">&times;</span>
+            <h2>Retirada de Receita e Saída de Estoque</h2>
+            <p>Preencha os dados abaixo para registrar a dispensa de medicamento e dar baixa no estoque.</p>
+            <form onsubmit="event.preventDefault(); showMessage('retiradaMessage', 'Retirada registrada e estoque atualizado! (Função de salvar no BD ainda não implementada)', 'success');">
+                <div>
+                    <label for="medicamento_retirada">Medicamento:</label>
+                    <select id="medicamento_retirada" required>
+                        <option value="">Carregando Medicamentos...</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="quantidade_retirada">Quantidade:</label>
+                    <input type="number" id="quantidade_retirada" min="1" required>
+                </div>
+                <div>
+                    <label for="receita_numero">Nº da Receita (Se Controlado):</label>
+                    <input type="text" id="receita_numero">
+                </div>
+                <div>
+                    <label for="cliente_nome">Nome do Cliente:</label>
+                    <input type="text" id="cliente_nome" required>
+                </div>
+                <div class="full-width">
+                    <button type="submit">Registrar Retirada</button>
+                </div>
+            </form>
+            <div id="retiradaMessage" class="message-box" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div id="loteModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('loteModal')">&times;</span>
+            <h2>Entrada de Novo Lote no Estoque</h2>
+            <p>Preencha os detalhes para adicionar um novo lote de medicamentos ao seu inventário.</p>
+            <form onsubmit="event.preventDefault(); showMessage('loteMessage', 'Novo lote adicionado com sucesso! (Função de salvar no BD ainda não implementada)', 'success');">
+                <div>
+                    <label for="medicamento_lote">Medicamento:</label>
+                    <select id="medicamento_lote" required>
+                        <option value="">Carregando Medicamentos...</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="numero_lote">Número do Lote:</label>
+                    <input type="text" id="numero_lote" required>
+                </div>
+                <div>
+                    <label for="quantidade_lote">Quantidade Recebida:</label>
+                    <input type="number" id="quantidade_lote" min="1" required>
+                </div>
+                <div>
+                    <label for="data_vencimento">Data de Vencimento:</label>
+                    <input type="date" id="data_vencimento" required>
+                </div>
+                <div class="full-width">
+                    <button type="submit">Adicionar Lote</button>
+                </div>
+            </form>
+            <div id="loteMessage" class="message-box" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div id="baixoEstoqueModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('baixoEstoqueModal')">&times;</span>
+            <h2>Alerta de Baixo Estoque</h2>
+            <p>Estes medicamentos estão abaixo do nível de segurança. (Dados Estáticos)</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Medicamento</th>
+                        <th>Estoque Atual</th>
+                        <th>Mínimo Ideal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Paracetamol 500mg</td>
+                        <td>12 caixas</td>
+                        <td>30 caixas</td>
+                    </tr>
+                    <tr>
+                        <td>Soro Fisiológico</td>
+                        <td>5 unidades</td>
+                        <td>15 unidades</td>
+                    </tr>
+                    <tr>
+                        <td>Omeprazol 20mg</td>
+                        <td>8 caixas</td>
+                        <td>25 caixas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="vencimentoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('vencimentoModal')">&times;</span>
+            <h2>Medicamentos Próximos ao Vencimento (Próximos 60 Dias)</h2>
+            <p>Itens que precisam de atenção. A cor rosa indica vencimento em menos de 30 dias. (Dados Estáticos)</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Medicamento</th>
+                        <th>Lote</th>
+                        <th>Vencimento</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="vencimento-critico">
+                        <td>Vacina Antigripal</td>
+                        <td>VAX-1234</td>
+                        <td>28/02/2026</td>
+                        <td>25 unidades</td>
+                    </tr>
+                    <tr>
+                        <td>Atenolol 50mg</td>
+                        <td>ATE-9876</td>
+                        <td>15/04/2026</td>
+                        <td>40 caixas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, addDoc, onSnapshot, collection, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Configuração do Firebase e variáveis globais
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db;
+        let auth;
+        let userId = null;
+        let isAuthReady = false; // Estado para controlar a prontidão da autenticação
+
+        // Referência aos elementos de UI
+        const submitCadastroButton = document.getElementById('submitCadastro');
+        const authStatusMessage = document.getElementById('authStatusMessage');
+
+        // Ativa o log para debug no console
+        setLogLevel('debug');
+        
+        // Função para exibir mensagens na UI
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            element.textContent = message;
+            element.className = `message-box ${type}`;
+            element.style.display = 'block';
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 3000);
+        }
+
+        // --- 1. FUNÇÃO DE CADASTRO NO FIRESTORE ---
+        async function addMedicamento(event) {
+            event.preventDefault();
+            const form = event.target;
+            const messageBoxId = 'cadastroMessage';
+            
+            // Verifica a autenticação antes de tentar o Firestore
+            if (!isAuthReady || !userId) {
+                showMessage(messageBoxId, 'Erro de autenticação: Aguarde o login ou recarregue a página.', 'error');
+                return;
+            }
+
+            const novoMedicamento = {
+                nome_comercial: document.getElementById('nome_comercial').value,
+                principio_ativo: document.getElementById('principio_ativo').value,
+                concentracao: document.getElementById('concentracao').value,
+                forma_farmaceutica: document.getElementById('forma_farmaceutica').value,
+                unidade_medida: document.getElementById('unidade_medida').value,
+                estoque_minimo: parseInt(document.getElementById('estoque_minimo').value),
+                controlado: document.getElementById('controlado').checked,
+                estoque_atual: 0, 
+                cadastrado_por: userId,
+                data_cadastro: new Date().toISOString(),
+            };
+
+            try {
+                // Caminho da coleção pública: /artifacts/{appId}/public/data/medicamentos
+                const collectionPath = `artifacts/${appId}/public/data/medicamentos`;
+                
+                await addDoc(collection(db, collectionPath), novoMedicamento);
+                
+                showMessage(messageBoxId, `Medicamento "${novoMedicamento.nome_comercial}" cadastrado com sucesso!`, 'success');
+                form.reset();
+                setTimeout(() => closeModal('cadastroRemedioModal'), 2000);
+
+            } catch (e) {
+                console.error("Erro ao adicionar documento: ", e);
+                showMessage(messageBoxId, 'Erro ao cadastrar: ' + e.message, 'error');
+            }
+        }
+
+        // --- 2. FUNÇÃO DE CARREGAMENTO EM TEMPO REAL (ONSNAPSHOT) ---
+        function loadMedicamentos(database) {
+            if (!database || !userId || !isAuthReady) return;
+
+            const selectElementRetirada = document.getElementById('medicamento_retirada');
+            const selectElementLote = document.getElementById('medicamento_lote');
+            
+            const collectionPath = `artifacts/${appId}/public/data/medicamentos`;
+
+            onSnapshot(collection(database, collectionPath), (snapshot) => {
+                
+                selectElementRetirada.innerHTML = '<option value="">Selecione o Medicamento</option>';
+                selectElementLote.innerHTML = '<option value="">Selecione o Medicamento</option>';
+
+                if (snapshot.empty) {
+                    selectElementRetirada.innerHTML = '<option value="">Nenhum medicamento cadastrado</option>';
+                    selectElementLote.innerHTML = '<option value="">Nenhum medicamento cadastrado</option>';
+                    return;
+                }
+
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const optionText = data.nome_comercial + ' (' + data.concentracao + ')';
+                    
+                    const optionRetirada = document.createElement('option');
+                    optionRetirada.value = doc.id; 
+                    optionRetirada.textContent = optionText;
+                    selectElementRetirada.appendChild(optionRetirada);
+                    
+                    const optionLote = optionRetirada.cloneNode(true);
+                    selectElementLote.appendChild(optionLote);
+                });
+
+                console.log("Lista de medicamentos atualizada em tempo real.");
+
+            }, (error) => {
+                console.error("Erro ao carregar medicamentos:", error);
+                selectElementRetirada.innerHTML = '<option value="">Erro ao carregar lista</option>';
+                selectElementLote.innerHTML = '<option value="">Erro ao carregar lista</option>';
+            });
+        }
+
+
+        // --- 3. INICIALIZAÇÃO E AUTENTICAÇÃO DO FIREBASE ---
+        if (Object.keys(firebaseConfig).length > 0) {
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                // 4. Observa o estado de autenticação
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        isAuthReady = true; // Define a autenticação como pronta
+                        console.log("Estoque: Usuário autenticado com UID:", userId);
+                        
+                        // HABILITA O BOTÃO E REMOVE MENSAGEM DE CARREGAMENTO
+                        if (submitCadastroButton) {
+                            submitCadastroButton.disabled = false;
+                            submitCadastroButton.textContent = 'Cadastrar Medicamento';
+                        }
+                        if (authStatusMessage) {
+                            authStatusMessage.style.display = 'none'; 
+                        }
+                        
+                        // INICIA O CARREGAMENTO DOS DADOS ASSIM QUE O USUÁRIO ESTÁ PRONTO
+                        loadMedicamentos(db); 
+                    } else {
+                        // Tenta autenticar ou usa anônimo se o token não estiver disponível
+                        try {
+                            if (initialAuthToken) {
+                                // Tenta login com token customizado (espera a primeira chamada)
+                                await signInWithCustomToken(auth, initialAuthToken);
+                            } else {
+                                // Login anônimo (fallback)
+                                await signInAnonymously(auth);
+                            }
+                            // O onAuthStateChanged será chamado novamente com o usuário logado
+                        } catch (error) {
+                            console.error("Estoque Auth Error:", error);
+                            if (authStatusMessage) {
+                                authStatusMessage.textContent = 'Erro ao conectar ao Firebase. Recarregue a página.';
+                                authStatusMessage.className = 'message-box error';
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                // Erro de inicialização do app (problema na config)
+                console.error("Erro na inicialização do Firebase:", error);
+                if (authStatusMessage) {
+                    authStatusMessage.textContent = 'ERRO: Configuração do sistema inválida.';
+                    authStatusMessage.className = 'message-box error';
+                }
+            }
+        } else {
+            // Configuração do Firebase não foi fornecida
+            console.error("A configuração do Firebase não foi fornecida.");
+            if (authStatusMessage) {
+                authStatusMessage.textContent = 'ERRO: Configuração do sistema ausente. Entre em contato com o suporte.';
+                authStatusMessage.className = 'message-box error';
+            }
+        }
+
+
+        // --- 5. LIGAÇÃO DO FORMULÁRIO COM A FUNÇÃO ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const cadastroForm = document.getElementById('cadastroForm');
+            if (cadastroForm) {
+                cadastroForm.addEventListener('submit', addMedicamento);
+            }
+        });
+
+
+        // --- FUNÇÕES GERAIS DE UI (MANTIDAS) ---
+
+        // Função para atualizar o relógio
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('pt-BR', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = 'Hora Atual: ' + timeString;
+            }
+        }
+
+        // Inicializa o relógio
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Funções para controle dos Modals
+        window.openModal = function(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Fecha o modal se o usuário clicar fora dele
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            });
+        }
+    </script>
 
 </body>
 

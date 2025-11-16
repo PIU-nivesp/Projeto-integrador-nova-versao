@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedFarma</title>
+    <title>MedFarma - Gestão Inteligente</title>
 
     <script src="https://cdn.jsdelivr.net/gh/PrabothCharith/accessibility-plugin@main/accessibility-menu.min.js"></script>
 
@@ -22,17 +22,17 @@
                 <span id="current-time"></span>
             </div>
         </div>
-
+        
         <nav class="navbar">
             <div class="navbar-container">
                 <a href="{% url 'index' %}" class="navbar-brand">
                     <img src="{% static 'img/logo.png' %}" alt="MedFarma Logo">
                     <span>MedFarma</span>
                 </a>
-
+                
                 <div class="navbar-links-main">
                     <a href="{% url 'index' %}">Home</a>
-                    <a href="#">Gerência de Estoque</a>
+                    <a href="{% url 'estoque' %}">Gerência de Estoque</a>
                     <a href="#">Retirada de Receita</a>
                     <a href="#">Relatórios</a>
                     <a href="#">Contato</a>
@@ -55,17 +55,17 @@
         </nav>
     </header>
 
-    <main class="main-content">
+    <main>
         <section class="hero-section">
             <div class="hero-overlay"></div>
             <div class="hero-content">
-                <p class="hero-subtitle">BEM-VINDO À MEDFARMA</p>
-                <h1 class="hero-title">Sua saúde, nossa prioridade.</h1>
+                <h2 class="hero-subtitle">Gestão de Farmácia Inteligente</h2>
+                <h1 class="hero-title">Controle seu Estoque, Salve Vidas.</h1>
                 <p class="hero-description">
-                    Encontre soluções para suas necessidades farmacêuticas e gerencie seu estoque com eficiência.
+                    Simplifique o gerenciamento de inventário, controle de lotes e vencimentos com a MedFarma.
                 </p>
                 <div class="hero-buttons">
-                    <a href="#" class="btn btn-primary">Ver Estoque</a>
+                    <a href="{% url 'estoque' %}" class="btn btn-primary">Ver Estoque</a>
                     <a href="#" class="btn btn-secondary">Sobre Nós</a>
                 </div>
             </div>
@@ -75,15 +75,15 @@
             <div class="info-container">
                 <div class="info-card">
                     <h3>Gerenciamento Simplificado</h3>
-                    <p>Controle total sobre seus produtos e inventário.</p>
+                    <p>Controle total sobre seus produtos e inventário, de forma intuitiva e eficiente.</p>
                 </div>
                 <div class="info-card">
                     <h3>Retirada de Receitas</h3>
-                    <p>Agilidade e segurança no processo de dispensa.</p>
+                    <p>Agilidade e segurança no processo de dispensa, com rastreamento de medicamentos controlados.</p>
                 </div>
                 <div class="info-card">
                     <h3>Relatórios Detalhados</h3>
-                    <p>Insights valiosos para a gestão da sua farmácia.</p>
+                    <p>Insights valiosos para a gestão da sua farmácia e tomada de decisões estratégicas.</p>
                 </div>
             </div>
         </section>
@@ -105,7 +105,7 @@
         updateTime();
         setInterval(updateTime, 1000);
     </script>
-
+    
 </body>
 
 </html>

@@ -1,47 +1,62 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - MedFarma</title>
+    <title>MedFarma - Login</title>
 
     <script src="https://cdn.jsdelivr.net/gh/PrabothCharith/accessibility-plugin@main/accessibility-menu.min.js"></script>
 
-    <style>
-        #accessibility-modal.close {
-            position: fixed;
-            top: 150px;
-        }
-    </style>
-
-    <link rel="stylesheet" href="{% static 'catalogo/style.css' %}"> 
+    <link rel="stylesheet" href="{% static 'catalogo/login_style.css' %}">
 </head>
+
 <body>
-    <div class="container">
+    
+    <div class="login-container">
         <div class="login-box">
-            <div class="logo">
-                <img src="{% static 'img/logo.png' %}">
+            <div class="login-header">
+                <img src="{% static 'img/logo.png' %}" alt="MedFarma Logo" class="logo">
+                <h1>Acesso ao Sistema MedFarma</h1>
+            </div>
+            
+            <form id="loginForm" class="login-form" method="POST" action="{% url 'login_view' %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required placeholder="Digite seu e-mail">
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" required placeholder="Digite sua senha">
+                </div>
+                
+                <button type="submit" class="btn-login">Entrar</button>
+            </form>
+            
+            <div id="login-status">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="login-status status-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
 
-            {% if error %}
-                <div class="error-message">{{ error }}</div>
-            {% endif %}
-
-            <form action="{% url 'login' %}" method="POST">
-                {% csrf_token %}
-                <div class="input-box">
-                    <input type="text" placeholder="E-mail do Usuário" name="username" required>
-                </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Senha" name="password" required>
-                </div>
-                <div class="forgot-password">
-                    <a href="#">Esqueceu a senha?</a>
-                </div>
-                <button type="submit" class="login-btn">Entrar</button>
-            </form>
+            <p class="forgot-password">
+                <a href="#">Esqueceu sua senha?</a>
+            </p>
+            
+            <p class="forgot-password">
+                <a href="{% url 'cadastro' %}">Criar uma conta</a>
+            </p>
         </div>
     </div>
-</body>
+
+    </body>
+
 </html>
