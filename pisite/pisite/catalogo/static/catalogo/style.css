@@ -1,0 +1,102 @@
+/* Geral */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: linear-gradient(135deg, #004d99, #0066cc);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.login-box {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 320px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.logo img {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+/* ESTILO PARA MENSAGEM DE ERRO */
+.error-message {
+    color: #d9534f; /* Vermelho */
+    background-color: #fdd;
+    border: 1px solid #f99;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.input-box {
+    margin-bottom: 20px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.3s;
+}
+
+.input-box input:focus {
+    border-color: #0066cc;
+    outline: none;
+}
+
+.forgot-password {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.forgot-password a {
+    color: #0066cc;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.forgot-password a:hover {
+    color: #004d99;
+    text-decoration: underline;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #32cd32; /* Cor do botão */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.login-btn:hover {
+    background-color: #28a828;
+}

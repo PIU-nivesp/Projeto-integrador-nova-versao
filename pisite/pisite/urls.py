@@ -6,7 +6,7 @@ For more information, see: https://docs.djangoproject.com/en/5.2/topics/http/url
 """
 from django.contrib import admin
 from django.urls import path
-from catalogo import views
+from pisite.catalogo import views
 
 urlpatterns = [
     # URLs do Django Admin

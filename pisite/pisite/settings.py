@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE_DIR aponta para a primeira pasta 'pisite' (que contém as configurações)
+# O BASE_DIR está em /pisite/pisite. O .parent.parent aponta para a pasta pisite (externa)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -38,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'catalogo', # nosso app
+    'pisite.catalogo.apps.CatalogoConfig', # Nosso app (caminho corrigido para referenciar o app corretamente)
 ]
 
 MIDDLEWARE = [
@@ -104,9 +106,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'pt-br' # Alterado para pt-br
+TIME_ZONE = 'America/Sao_Paulo' # Alterado para o fuso horário de SP
 
 USE_I18N = True
 
@@ -118,6 +119,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# CORREÇÃO FINAL: Mapeia a pasta 'static' que está na raiz do projeto.
+# BASE_DIR.parent sobe para a raiz do PROJETO-INTEGRADOR-NOVA-VERSAO.
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR.parent, 'static'), 
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
